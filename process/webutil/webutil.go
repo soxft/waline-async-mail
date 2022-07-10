@@ -2,6 +2,7 @@ package webutil
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/soxft/waline-async-mail/config"
 	"log"
 )
 
@@ -10,7 +11,8 @@ func Init() {
 
 	initRoute(r)
 
-	err := r.Run("127.0.0.1:8080")
+	log.Printf("[INFO] server is running at %s", config.Server.Addr)
+	err := r.Run(config.Server.Addr)
 	if err != nil {
 		log.Fatal(err)
 	}

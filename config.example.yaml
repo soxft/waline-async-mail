@@ -13,10 +13,6 @@ BlogInfo:
   Title: Blog Title
   BlogAddress: https://blog.example.com
   AuthorEmail: contact@example.com       # 博主邮箱 用于接受用户评论
-Safety:
-  Whitelist:                             # 请求白名单
-    - 1.1.1.1
-    - 1.2.3.4
 Redis:                                   # 利用 Redis 实现的 消息队列, 用于控制发信频率
   Enable: true                           # 是否启用
   Address: 127.0.0.1:6379
