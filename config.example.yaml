@@ -1,0 +1,21 @@
+Server:
+  Address: 127.0.0.1:8080
+  Debug: false
+Smtp:
+  Host: smtp.example.com
+  Port: 465
+  Secure: true
+  Username: username
+  Password: password
+  SenderEmail: email@example.com
+  SenderName: Example
+BlogInfo:
+  Title: Blog Title
+  BlogAddress: https://blog.example.com
+  AuthorEmail: contact@example.com
+Safety:
+  Whitelist:
+    - 1.1.1.1
+    - 1.2.3.4
+Query:
+    Concurrency: 10
