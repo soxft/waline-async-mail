@@ -9,8 +9,7 @@ import (
 var R *redis.Pool
 
 func init() {
-	r := config.Redis
-	if !r.Enable {
+	if !config.Redis.Enable {
 		return
 	}
 
@@ -18,9 +17,9 @@ func init() {
 		MaxIdle:   10,
 		MaxActive: 50,
 		Dial: func() (redis.Conn, error) {
-			c, err := redis.Dial("tcp", r.Addr,
-				redis.DialPassword(r.Pwd),
-				redis.DialDatabase(r.Db),
+			c, err := redis.Dial("tcp", config.Redis.Addr,
+				redis.DialPassword(config.Redis.Pwd),
+				redis.DialDatabase(config.Redis.Db),
 			)
 			if err != nil {
 				log.Fatalf(err.Error())
