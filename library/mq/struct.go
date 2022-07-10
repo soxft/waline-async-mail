@@ -1,12 +1,20 @@
 package mq
 
-type Email struct {
-	To      string `json:"to"`
-	Subject string `json:"subject"`
-	Body    string `json:"body"`
+import (
+	"github.com/gomodule/redigo/redis"
+)
+
+type MessageQueue interface {
+	Publish(topic string, msg string, delay int64) error
+	Subscribe(topic string, processes int, handler func(msg string))
 }
 
-type Item struct {
+type QueueArgs struct {
+	redis      *redis.Pool
+	maxRetries int
+}
+
+type MsgArgs struct {
+	Msg   string `json:"msg"`
 	Retry int    `json:"retry"`
-	Data  string `json:"data"`
 }
