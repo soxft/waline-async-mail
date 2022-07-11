@@ -4,11 +4,14 @@ import (
 	"encoding/json"
 	"github.com/soxft/waline-async-mail/library/mail"
 	"log"
+	"os"
 )
 
 // Mail
 // @description: 邮件发送相关
 func Mail(msg string) {
+	log.SetOutput(os.Stdout)
+
 	var mailMsg mail.Mail
 	if err := json.Unmarshal([]byte(msg), &mailMsg); err != nil {
 		log.Panic(err)

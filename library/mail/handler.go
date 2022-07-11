@@ -8,6 +8,7 @@ import (
 	"github.com/soxft/waline-async-mail/library/mq"
 	"github.com/soxft/waline-async-mail/process/redisutil"
 	"log"
+	"os"
 	"reflect"
 	"strings"
 )
@@ -79,6 +80,7 @@ func Handler(data app.CommentStruct) {
 }
 
 func handlerSendMail(mail Mail) {
+	log.SetOutput(os.Stdout)
 	if config.Redis.Enable {
 		mailMsg, err := json.Marshal(mail)
 		if err != nil {
