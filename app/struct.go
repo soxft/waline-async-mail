@@ -10,12 +10,12 @@ type CommentStruct struct {
 			Comment    string `json:"comment"`
 			RawComment string `json:"rawComment"`
 			Ip         string `json:"ip"`
-			InsertedAt string `json:"inserted_at"`
+			InsertedAt string `json:"insertedAt"`
 			Status     string `json:"status"`
 		} `json:"comment"`
 		Reply struct {
 			Comment    string `json:"comment"`
-			InsertedAt string `json:"inserted_at"`
+			InsertedAt string `json:"insertedAt"`
 			Status     string `json:"status"`
 			Mail       string `json:"mail"`
 		} `json:"reply"`

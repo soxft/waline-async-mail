@@ -3,7 +3,7 @@ package mail
 import (
 	"crypto/tls"
 	"fmt"
-	"github.com/soxft/waline-async-mail/app/config"
+	"github.com/soxft/waline-async-mail/config"
 	"gopkg.in/gomail.v2"
 	"mime"
 )

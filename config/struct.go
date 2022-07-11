@@ -23,7 +23,7 @@ type SmtpConfig struct {
 }
 
 type BlogInfoConfig struct {
-	Tittle      string `yaml:"Tittle"`
+	Title       string `yaml:"Title"`
 	Addr        string `yaml:"BlogAddress"`
 	AuthorEmail string `yaml:"AuthorEmail"`
 }

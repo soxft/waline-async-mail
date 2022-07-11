@@ -1,7 +1,7 @@
 package mail
 
 import (
-	"github.com/soxft/waline-async-mail/app/config"
+	"github.com/soxft/waline-async-mail/config"
 	"testing"
 )
 

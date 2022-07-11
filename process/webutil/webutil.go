@@ -2,7 +2,7 @@ package webutil
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/soxft/waline-async-mail/app/config"
+	"github.com/soxft/waline-async-mail/config"
 	"log"
 )
 

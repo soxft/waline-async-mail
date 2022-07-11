@@ -1,7 +1,7 @@
 package mqutil
 
 import (
-	"github.com/soxft/waline-async-mail/app/config"
+	"github.com/soxft/waline-async-mail/config"
 	"github.com/soxft/waline-async-mail/library/mq"
 	"github.com/soxft/waline-async-mail/process/redisutil"
 )
