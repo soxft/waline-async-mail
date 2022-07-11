@@ -51,7 +51,9 @@ func Handler(data app.CommentStruct) {
 		ToAddress: config.BlogInfo.AuthorEmail,
 		Typ:       "toOwner",
 	}
-	handlerSendMail(mail)
+	if _comment.Mail != config.BlogInfo.AuthorEmail {
+		handlerSendMail(mail)
+	}
 
 	// 回复邮件 > 发送给 Owner & 被回复者
 	if _reply.Status != "" {
@@ -65,12 +67,14 @@ func Handler(data app.CommentStruct) {
 		}
 		content = parse(config.GuestTemplate, guestArgs)
 		mail = Mail{
-			Subject:   fmt.Sprintf("%s 回复了你的评论 - %s", _reply.Nick, _siteTitle),
+			Subject:   fmt.Sprintf("%s 回复了你的评论 - %s", _comment.Nick, _siteTitle),
 			Content:   content,
 			ToAddress: _reply.Mail,
 			Typ:       "toGuest",
 		}
-		handlerSendMail(mail)
+		if _reply.Mail != "" && _reply.Mail != config.BlogInfo.AuthorEmail {
+			handlerSendMail(mail)
+		}
 	}
 }
 
