@@ -8,7 +8,7 @@ import (
 
 var R *redis.Pool
 
-func init() {
+func Init() {
 	if !config.Redis.Enable {
 		return
 	}
