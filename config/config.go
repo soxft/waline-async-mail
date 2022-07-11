@@ -1,6 +1,5 @@
 package config
 
-import "C"
 import (
 	"flag"
 	"gopkg.in/yaml.v2"
