@@ -7,6 +7,6 @@ import (
 
 func initRoute(r *gin.Engine) {
 	r.GET("/ping", controller.Ping)
-	r.GET("/", controller.Index)
+	r.GET("/", controller.Redirect)
 	r.POST("/", controller.Handler)
 }

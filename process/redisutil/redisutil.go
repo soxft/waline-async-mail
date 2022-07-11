@@ -2,7 +2,7 @@ package redisutil
 
 import (
 	"github.com/gomodule/redigo/redis"
-	"github.com/soxft/waline-async-mail/config"
+	"github.com/soxft/waline-async-mail/app/config"
 	"log"
 )
 
