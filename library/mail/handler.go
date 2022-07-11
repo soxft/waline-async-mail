@@ -26,9 +26,7 @@ func parse(template string, args interface{}) string {
 }
 
 func Handler(data app.CommentStruct) {
-	var _mq mq.MessageQueue
 	var mail Mail
-	_mq = mq.New(redisutil.R, 3)
 
 	_reply := data.Data.Reply
 	_comment := data.Data.Comment
@@ -53,18 +51,7 @@ func Handler(data app.CommentStruct) {
 		ToAddress: config.BlogInfo.AuthorEmail,
 		Typ:       "toOwner",
 	}
-	if config.Redis.Enable {
-		mailMsg, err := json.Marshal(mail)
-		if err != nil {
-			log.Printf("[ERROR] json.Marshal error: %s", err)
-		}
-		_ = _mq.Publish("mail", string(mailMsg))
-	} else {
-		err := Send(mail, PlatformSmtp)
-		if err != nil {
-			log.Printf("[ERROR] Send To Owener: %s", err)
-		}
-	}
+	handlerSendMail(mail)
 
 	// 回复邮件 > 发送给 Owner & 被回复者
 	if _reply.Status != "" {
@@ -83,17 +70,22 @@ func Handler(data app.CommentStruct) {
 			ToAddress: _reply.Mail,
 			Typ:       "toGuest",
 		}
-		if config.Redis.Enable {
-			mailMsg, err := json.Marshal(mail)
-			if err != nil {
-				log.Printf("[ERROR] json.Marshal error: %s", err)
-			}
-			_ = _mq.Publish("mail", string(mailMsg))
-		} else {
-			err := Send(mail, PlatformSmtp)
-			if err != nil {
-				log.Printf("[ERROR] Send To Guest: %s: %s", mail.ToAddress, err)
-			}
+		handlerSendMail(mail)
+	}
+}
+
+func handlerSendMail(mail Mail) {
+	if config.Redis.Enable {
+		mailMsg, err := json.Marshal(mail)
+		if err != nil {
+			log.Printf("[ERROR] json.Marshal error: %s", err)
+		}
+		_ = mq.New(redisutil.R, 3).Publish("mail", string(mailMsg))
+	} else {
+		err := Send(mail, PlatformSmtp)
+		log.Printf("[INFO] mail send [%s]: %s", mail.Typ, mail.ToAddress)
+		if err != nil {
+			log.Printf("[ERROR] Mail send err [%s] %s: %s", mail.Typ, mail.ToAddress, err)
 		}
 	}
 }
