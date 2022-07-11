@@ -30,4 +30,5 @@ func init() {
 	if _, err := R.Get().Do("PING"); err != nil {
 		log.Fatalf("redis connect error: %s", err.Error())
 	}
+	log.Println("[INFO] Redis init success")
 }

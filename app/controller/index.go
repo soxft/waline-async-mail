@@ -3,9 +3,7 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/soxft/waline-async-mail/app"
-	"github.com/soxft/waline-async-mail/config"
 	"github.com/soxft/waline-async-mail/library/mail"
-	"log"
 )
 
 // Redirect
@@ -29,23 +27,7 @@ func Handler(c *gin.Context) {
 		return
 	}
 
-	if data.Data.Reply.Status == "" {
-		// 评论邮件 > 发送给 Owner
-		var ownerArgs mail.OwnerArgs
-		ownerArgs = mail.OwnerArgs{
-			Author:    data.Data.Comment.Nick,
-			Permalink: config.BlogInfo.Addr + data.Data.Comment.Url,
-			SiteTitle: config.BlogInfo.Title,
-			Ip:        data.Data.Comment.Ip,
-			Time:      data.Data.Comment.InsertedAt,
-			Status:    data.Data.Comment.Status,
-			Mail:      data.Data.Comment.Mail,
-		}
-		content, err := mail.ParseOwner(ownerArgs)
-		log.Println(content, err)
-	} else {
-		// 回复邮件 > 发送给 Owner & 被回复者
-	}
+	go mail.Handler(data)
 
 	c.JSON(202, gin.H{
 		"success": true,

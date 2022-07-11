@@ -14,10 +14,11 @@ type CommentStruct struct {
 			Status     string `json:"status"`
 		} `json:"comment"`
 		Reply struct {
+			Nick       string `json:"nick"`
+			Mail       string `json:"mail"`
 			Comment    string `json:"comment"`
 			InsertedAt string `json:"insertedAt"`
 			Status     string `json:"status"`
-			Mail       string `json:"mail"`
 		} `json:"reply"`
 	} `json:"data"`
 }

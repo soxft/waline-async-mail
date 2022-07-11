@@ -14,7 +14,7 @@ func New(redis *redis.Pool, maxRetries int) MessageQueue {
 	}
 }
 
-func (q *QueueArgs) Publish(topic string, msg string, delay int64) error {
+func (q *QueueArgs) Publish(topic string, msg string) error {
 	_redis := q.redis.Get()
 	defer func(_redis redis.Conn) {
 		_ = _redis.Close()

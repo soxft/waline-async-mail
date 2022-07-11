@@ -17,6 +17,7 @@ type OwnerArgs struct {
 	Permalink string `args:"permalink"`  // 文章链接
 	SiteTitle string `args:"site_title"` // 网站标题
 	Author    string `args:"author"`     // 作者
+	Text      string `args:"text"`       // 评论内容
 	Ip        string `args:"ip"`
 	Mail      string `args:"mail"`
 	Time      string `args:"time"`

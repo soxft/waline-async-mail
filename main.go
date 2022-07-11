@@ -6,6 +6,6 @@ import (
 )
 
 func main() {
-	webutil.Init()
 	mqutil.Init()
+	webutil.Init()
 }

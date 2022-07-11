@@ -5,7 +5,7 @@ import (
 )
 
 type MessageQueue interface {
-	Publish(topic string, msg string, delay int64) error
+	Publish(topic string, msg string) error
 	Subscribe(topic string, processes int, handler func(msg string))
 }
 

@@ -19,16 +19,8 @@ func Mail(msg string) {
 	}
 	log.Printf("[INFO] Mail(%s) %s", mailMsg.Typ, mailMsg.ToAddress)
 
-	// get mail platform
-	var platform mail.Platform
-	switch mailMsg.Typ {
-	case "register":
-		platform = mail.PlatformSmtp
-	default:
-		platform = mail.PlatformSmtp
-	}
 	// send mail
-	if err := mail.Send(mailMsg, platform); err != nil {
+	if err := mail.Send(mailMsg, mail.PlatformSmtp); err != nil {
 		log.Panic(err)
 	}
 }

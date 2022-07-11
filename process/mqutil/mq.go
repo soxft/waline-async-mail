@@ -4,6 +4,7 @@ import (
 	"github.com/soxft/waline-async-mail/config"
 	"github.com/soxft/waline-async-mail/library/mq"
 	"github.com/soxft/waline-async-mail/process/redisutil"
+	"log"
 )
 
 var Q mq.MessageQueue
@@ -17,4 +18,6 @@ func Init() {
 	Q = mq.New(redisutil.R, 3)
 
 	Q.Subscribe("mail", config.Redis.Concurrency, Mail)
+
+	log.Println("[INFO] MessageQueue init success")
 }
