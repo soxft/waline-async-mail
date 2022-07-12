@@ -26,7 +26,7 @@ func parse(template string, args interface{}) string {
 	return template
 }
 
-func Handler(data app.CommentStruct) {
+func Send(data app.CommentStruct) {
 	var _mail mail.Mail
 
 	_reply := data.Data.Reply

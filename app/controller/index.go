@@ -27,7 +27,7 @@ func Handler(c *gin.Context) {
 		return
 	}
 
-	go handler.Handler(data)
+	go handler.Send(data)
 
 	c.JSON(202, gin.H{
 		"success": true,
