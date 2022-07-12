@@ -3,7 +3,7 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/soxft/waline-async-mail/app"
-	"github.com/soxft/waline-async-mail/library/mail"
+	"github.com/soxft/waline-async-mail/handler"
 )
 
 // Redirect
@@ -27,7 +27,7 @@ func Handler(c *gin.Context) {
 		return
 	}
 
-	go mail.Handler(data)
+	go handler.Send(data)
 
 	c.JSON(202, gin.H{
 		"success": true,
