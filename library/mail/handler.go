@@ -5,8 +5,7 @@ import (
 	"fmt"
 	"github.com/soxft/waline-async-mail/app"
 	"github.com/soxft/waline-async-mail/config"
-	"github.com/soxft/waline-async-mail/library/mq"
-	"github.com/soxft/waline-async-mail/process/redisutil"
+	"github.com/soxft/waline-async-mail/process/mqutil"
 	"log"
 	"os"
 	"reflect"
@@ -86,7 +85,7 @@ func handlerSendMail(mail Mail) {
 		if err != nil {
 			log.Printf("[ERROR] json.Marshal error: %s", err)
 		}
-		_ = mq.New(redisutil.R, 3).Publish("mail", string(mailMsg))
+		_ = mqutil.Q.Publish("mail", string(mailMsg))
 	} else {
 		err := Send(mail, PlatformSmtp)
 		log.Printf("[INFO] mail send [%s]: %s", mail.Typ, mail.ToAddress)
