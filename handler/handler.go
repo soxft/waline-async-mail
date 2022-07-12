@@ -1,12 +1,12 @@
-package mail
+package handler
 
 import (
 	"encoding/json"
 	"fmt"
 	"github.com/soxft/waline-async-mail/app"
 	"github.com/soxft/waline-async-mail/config"
-	"github.com/soxft/waline-async-mail/library/mq"
-	"github.com/soxft/waline-async-mail/process/redisutil"
+	"github.com/soxft/waline-async-mail/library/mail"
+	"github.com/soxft/waline-async-mail/process/mqutil"
 	"log"
 	"os"
 	"reflect"
@@ -27,7 +27,7 @@ func parse(template string, args interface{}) string {
 }
 
 func Handler(data app.CommentStruct) {
-	var mail Mail
+	var _mail mail.Mail
 
 	_reply := data.Data.Reply
 	_comment := data.Data.Comment
@@ -35,7 +35,7 @@ func Handler(data app.CommentStruct) {
 	_siteTitle := config.BlogInfo.Title
 
 	// 评论邮件 > 发送给 Owner
-	ownerArgs := OwnerArgs{
+	ownerArgs := mail.OwnerArgs{
 		Author:    _comment.Nick,
 		Permalink: _permalink,
 		SiteTitle: _siteTitle,
@@ -46,19 +46,19 @@ func Handler(data app.CommentStruct) {
 		Mail:      _comment.Mail,
 	}
 	content := parse(config.OwnerTemplate, ownerArgs)
-	mail = Mail{
+	_mail = mail.Mail{
 		Subject:   fmt.Sprintf("%s 上有新评论了", _siteTitle),
 		Content:   content,
 		ToAddress: config.BlogInfo.AuthorEmail,
 		Typ:       "toOwner",
 	}
 	if _comment.Mail != config.BlogInfo.AuthorEmail {
-		handlerSendMail(mail)
+		handlerSendMail(_mail)
 	}
 
 	// 回复邮件 > 发送给 Owner & 被回复者
 	if _reply.Status != "" {
-		guestArgs := GuestArgs{
+		guestArgs := mail.GuestArgs{
 			Author:    _comment.Nick,
 			AuthorP:   _reply.Nick,
 			Permalink: _permalink,
@@ -67,31 +67,31 @@ func Handler(data app.CommentStruct) {
 			SiteTitle: _siteTitle,
 		}
 		content = parse(config.GuestTemplate, guestArgs)
-		mail = Mail{
+		_mail = mail.Mail{
 			Subject:   fmt.Sprintf("%s 回复了你的评论 - %s", _comment.Nick, _siteTitle),
 			Content:   content,
 			ToAddress: _reply.Mail,
 			Typ:       "toGuest",
 		}
 		if _reply.Mail != "" && _reply.Mail != config.BlogInfo.AuthorEmail {
-			handlerSendMail(mail)
+			handlerSendMail(_mail)
 		}
 	}
 }
 
-func handlerSendMail(mail Mail) {
+func handlerSendMail(_mail mail.Mail) {
 	log.SetOutput(os.Stdout)
 	if config.Redis.Enable {
-		mailMsg, err := json.Marshal(mail)
+		mailMsg, err := json.Marshal(_mail)
 		if err != nil {
 			log.Printf("[ERROR] json.Marshal error: %s", err)
 		}
-		_ = mq.New(redisutil.R, 3).Publish("mail", string(mailMsg))
+		_ = mqutil.Q.Publish("mail", string(mailMsg))
 	} else {
-		err := Send(mail, PlatformSmtp)
-		log.Printf("[INFO] mail send [%s]: %s", mail.Typ, mail.ToAddress)
+		err := mail.Send(_mail, mail.PlatformSmtp)
+		log.Printf("[INFO] mail send [%s]: %s", _mail.Typ, _mail.ToAddress)
 		if err != nil {
-			log.Printf("[ERROR] Mail send err [%s] %s: %s", mail.Typ, mail.ToAddress, err)
+			log.Printf("[ERROR] Mail send err [%s] %s: %s", _mail.Typ, _mail.ToAddress, err)
 		}
 	}
 }
