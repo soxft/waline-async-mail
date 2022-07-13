@@ -15,19 +15,10 @@ var (
 	Smtp     SmtpConfig
 )
 
-var (
-	templatesPath string
-	configPath    string
-)
-
-var (
-	OwnerTemplate string
-	GuestTemplate string
-)
+var configPath string
 
 func init() {
 	testing.Init()
-	flag.StringVar(&templatesPath, "t", "./templates", "模板文件路径")
 	flag.StringVar(&configPath, "c", "./config.yaml", "配置文件路径")
 	flag.Parse()
 
@@ -46,20 +37,4 @@ func init() {
 	Smtp = config.SmtpConfig
 	BlogInfo = config.BlogInfoConfig
 
-	// read templates
-	if _, err := ioutil.ReadDir(templatesPath); err != nil {
-		log.Fatalf("templates dir not exists: %v", err)
-	}
-	// get file content
-	_ownerTemplate, err := ioutil.ReadFile(templatesPath + "/owner.html")
-	if err != nil {
-		log.Fatalf("error when reading owner template: %v", err)
-	}
-	_guestTemplate, err := ioutil.ReadFile(templatesPath + "/guest.html")
-	if err != nil {
-		log.Fatalf("error when reading guest template: %v", err)
-	}
-	// set global variable
-	OwnerTemplate = string(_ownerTemplate)
-	GuestTemplate = string(_guestTemplate)
 }

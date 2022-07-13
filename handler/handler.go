@@ -7,6 +7,7 @@ import (
 	"github.com/soxft/waline-async-mail/config"
 	"github.com/soxft/waline-async-mail/library/mail"
 	"github.com/soxft/waline-async-mail/process/mqutil"
+	"github.com/soxft/waline-async-mail/templates"
 	"log"
 	"os"
 	"reflect"
@@ -45,7 +46,7 @@ func Send(data app.CommentStruct) {
 		Status:    _comment.Status,
 		Mail:      _comment.Mail,
 	}
-	content := parse(config.OwnerTemplate, ownerArgs)
+	content := parse(templates.Owner, ownerArgs)
 	_mail = mail.Mail{
 		Subject:   fmt.Sprintf("%s 上有新评论了", _siteTitle),
 		Content:   content,
@@ -66,7 +67,7 @@ func Send(data app.CommentStruct) {
 			TextP:     _reply.Comment,
 			SiteTitle: _siteTitle,
 		}
-		content = parse(config.GuestTemplate, guestArgs)
+		content = parse(templates.Guest, guestArgs)
 		_mail = mail.Mail{
 			Subject:   fmt.Sprintf("%s 回复了你的评论 - %s", _comment.Nick, _siteTitle),
 			Content:   content,
@@ -89,7 +90,7 @@ func handlerSendMail(_mail mail.Mail) {
 		_ = mqutil.Q.Publish("mail", string(mailMsg))
 	} else {
 		err := mail.Send(_mail, mail.PlatformSmtp)
-		log.Printf("[INFO] mail send [%s]: %s", _mail.Typ, _mail.ToAddress)
+		log.Printf("[INFO] Mail send [%s]: %s", _mail.Typ, _mail.ToAddress)
 		if err != nil {
 			log.Printf("[ERROR] Mail send err [%s] %s: %s", _mail.Typ, _mail.ToAddress, err)
 		}
