@@ -20,7 +20,7 @@ func Mail(msg string) {
 		log.Printf("[ERROR] Mail(%s) 空收件人", mailMsg.Typ)
 		return
 	}
-	log.Printf("[INFO] Mail(%s) %s", mailMsg.Typ, mailMsg.ToAddress)
+	log.Printf("[INFO] Mail send [%s]: %s", mailMsg.Typ, mailMsg.ToAddress)
 
 	// send mail
 	if err := mail.Send(mailMsg, mail.PlatformSmtp); err != nil {

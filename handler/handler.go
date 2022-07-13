@@ -90,7 +90,7 @@ func handlerSendMail(_mail mail.Mail) {
 		_ = mqutil.Q.Publish("mail", string(mailMsg))
 	} else {
 		err := mail.Send(_mail, mail.PlatformSmtp)
-		log.Printf("[INFO] mail send [%s]: %s", _mail.Typ, _mail.ToAddress)
+		log.Printf("[INFO] Mail send [%s]: %s", _mail.Typ, _mail.ToAddress)
 		if err != nil {
 			log.Printf("[ERROR] Mail send err [%s] %s: %s", _mail.Typ, _mail.ToAddress, err)
 		}
