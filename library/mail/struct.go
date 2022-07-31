@@ -10,7 +10,8 @@ type Mail struct {
 type Platform string
 
 const (
-	PlatformSmtp Platform = "smtp"
+	PlatformSmtp   Platform = "smtp"
+	PlatformAliyun Platform = "aliyun"
 )
 
 type OwnerArgs struct {

@@ -12,7 +12,9 @@ var (
 	Server   ServerConfig
 	Redis    RedisConfig
 	BlogInfo BlogInfoConfig
+	SendBy   SendByConfig
 	Smtp     SmtpConfig
+	Aliyun   AliyunConfig
 )
 
 var configPath string
@@ -34,7 +36,8 @@ func init() {
 
 	Server = config.ServerConfig
 	Redis = config.RedisConfig
-	Smtp = config.SmtpConfig
+	SendBy = config.SendByConfig
 	BlogInfo = config.BlogInfoConfig
-
+	Smtp = config.SmtpConfig
+	Aliyun = config.AliyunConfig
 }

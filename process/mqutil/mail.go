@@ -12,18 +12,18 @@ import (
 func Mail(msg string) {
 	log.SetOutput(os.Stdout)
 
-	var mailMsg mail.Mail
-	if err := json.Unmarshal([]byte(msg), &mailMsg); err != nil {
+	var _mail mail.Mail
+	if err := json.Unmarshal([]byte(msg), &_mail); err != nil {
 		log.Panic(err)
 	}
-	if mailMsg.ToAddress == "" {
-		log.Printf("[ERROR] Mail(%s) 空收件人", mailMsg.Typ)
+	if _mail.ToAddress == "" {
+		log.Printf("[ERROR] Mail(%s) 空收件人", _mail.Typ)
 		return
 	}
-	log.Printf("[INFO] Mail send [%s]: %s", mailMsg.Typ, mailMsg.ToAddress)
+	log.Printf("[INFO] Mail send [%s]: %s", _mail.Typ, _mail.ToAddress)
 
 	// send mail
-	if err := mail.Send(mailMsg, mail.PlatformSmtp); err != nil {
+	if err := mail.Send(_mail, mail.GetSendPlatform(_mail)); err != nil {
 		log.Panic(err)
 	}
 }

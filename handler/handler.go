@@ -82,6 +82,8 @@ func Send(data app.CommentStruct) {
 
 func handlerSendMail(_mail mail.Mail) {
 	log.SetOutput(os.Stdout)
+
+	// 使用 消息队列
 	if config.Redis.Enable {
 		mailMsg, err := json.Marshal(_mail)
 		if err != nil {
@@ -89,7 +91,8 @@ func handlerSendMail(_mail mail.Mail) {
 		}
 		_ = mqutil.Q.Publish("mail", string(mailMsg))
 	} else {
-		err := mail.Send(_mail, mail.PlatformSmtp)
+		// 直接发送
+		err := mail.Send(_mail, mail.GetSendPlatform(_mail))
 		log.Printf("[INFO] Mail send [%s]: %s", _mail.Typ, _mail.ToAddress)
 		if err != nil {
 			log.Printf("[ERROR] Mail send err [%s] %s: %s", _mail.Typ, _mail.ToAddress, err)

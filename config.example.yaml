@@ -1,14 +1,6 @@
 Server:
   Address: 127.0.0.1:8080 # 服务监听端口
   Debug: false
-Smtp: # SMTP配置
-  Host: smtp.example.com
-  Port: 465
-  Secure: true
-  Username: username
-  Password: password
-  SenderEmail: email@example.com
-  SenderName: Example
 BlogInfo:
   Title: Blog Title
   BlogAddress: https://blog.example.com
@@ -20,3 +12,22 @@ Redis:                                   # 利用 Redis 实现的 消息队列, 
   Password:
   Prefix: waline:mail                    # Redis Key 前缀
   Concurrency: 2                         # 允许的最大并发数量
+
+# 发送方式
+SendBy: # 可选 aliyun, smtp
+  Owner: aliyun
+  Guest: smtp
+Smtp: # SMTP配置
+    Host: smtp.example.com
+    Port: 465
+    Secure: true
+    Username: username
+    Password: password
+    SenderEmail: email@example.com
+    SenderName: Example
+Aliyun: # Aliyun 邮件推送
+  Domain: dm.aliyuncs.com
+  Region: cn-hangzhou
+  AccessKey: key
+  AccessSecret: secret
+  Email: email@aliyun.com
