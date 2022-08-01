@@ -35,19 +35,18 @@ type SendByConfig struct {
 }
 
 type SmtpConfig struct {
-	Host        string `yaml:"Host"`
-	Port        int    `yaml:"Port"`
-	Secure      bool   `yaml:"Secure"`
-	User        string `yaml:"Username"`
-	Pwd         string `yaml:"Password"`
-	SenderEmail string `yaml:"SenderEmail"`
-	SenderName  string `yaml:"SenderName"`
+	Host   string `yaml:"Host"`
+	Port   int    `yaml:"Port"`
+	Secure bool   `yaml:"Secure"`
+	User   string `yaml:"Username"`
+	Pwd    string `yaml:"Password"`
 }
 
 type AliyunConfig struct {
 	AccessKey    string `yaml:"AccessKey"`
 	AccessSecret string `yaml:"AccessSecret"`
-	Email        string `yaml:"Email"`
 	Region       string `yaml:"Region"`
 	Domain       string `yaml:"Domain"`
+	Version      string `yaml:"Version"`
+	Email        string `yaml:"Email"`
 }

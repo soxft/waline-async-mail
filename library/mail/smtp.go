@@ -11,10 +11,10 @@ import (
 func sendBySmtp(mail Mail) error {
 	m := gomail.NewMessage()
 
-	senderNameUtf8 := mime.QEncoding.Encode("utf-8", config.Smtp.SenderName)
-	m.SetHeader("From", fmt.Sprintf("\"%s\" <%s>", senderNameUtf8, config.Smtp.SenderEmail)) // 发件人
-	m.SetHeader("To", mail.ToAddress)                                                        // 收件人
-	m.SetHeader("Subject", mail.Subject)                                                     // 邮件主题
+	senderNameUtf8 := mime.QEncoding.Encode("utf-8", config.BlogInfo.Title)
+	m.SetHeader("From", fmt.Sprintf("\"%s\" <%s>", senderNameUtf8, config.Smtp.User)) // 发件人
+	m.SetHeader("To", mail.ToAddress)                                                 // 收件人
+	m.SetHeader("Subject", mail.Subject)                                              // 邮件主题
 
 	m.SetBody("text/html; charset=UTF-8", mail.Content)
 

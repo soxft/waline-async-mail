@@ -15,7 +15,7 @@ func sendByAliyun(mail Mail) error {
 	request.Method = "POST"
 	request.Scheme = "https"
 	request.Domain = config.Aliyun.Domain
-	request.Version = "2015-11-23"
+	request.Version = config.Aliyun.Version
 	request.ApiName = "SingleSendMail"
 	request.QueryParams["ToAddress"] = mail.ToAddress
 	request.QueryParams["Subject"] = mail.Subject

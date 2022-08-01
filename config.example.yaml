@@ -14,20 +14,20 @@ Redis:                                   # 利用 Redis 实现的 消息队列, 
   Concurrency: 2                         # 允许的最大并发数量
 
 # 发送方式
-SendBy: # 可选 aliyun, smtp
-  Owner: aliyun
-  Guest: smtp
+SendBy: # 可选 阿里云邮件推送, smtp
+  Owner: aliyun  # 发送给 博主 的方式
+  Guest: smtp    # 发送给 访客 的方式
+
 Smtp: # SMTP配置
     Host: smtp.example.com
     Port: 465
     Secure: true
     Username: username
     Password: password
-    SenderEmail: email@example.com
-    SenderName: Example
 Aliyun: # Aliyun 邮件推送
   Domain: dm.aliyuncs.com
   Region: cn-hangzhou
+  Version: 2015-11-23
   AccessKey: key
   AccessSecret: secret
   Email: email@aliyun.com
