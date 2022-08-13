@@ -31,3 +31,8 @@ Aliyun: # Aliyun 邮件推送
   AccessKey: key
   AccessSecret: secret
   Email: email@aliyun.com
+Bark:
+  Addr: https://example.com
+Telegram:
+  Token: xxx
+  ChatId: xxx

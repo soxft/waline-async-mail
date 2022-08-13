@@ -7,17 +7,29 @@ import (
 
 var (
 	//go:embed owner.html
-	Owner string
+	MailOwner string
 	//go:embed guest.html
-	Guest string
+	MailGuest string
+
+	//go:embed owner.tpl
+	TextOwner string
+	//go:embed guest.tpl
+	TextGuest string
 )
 
 func init() {
 	// get file content
-	if _ownerTemplate, err := ioutil.ReadFile("./templates/owner.html"); err == nil {
-		Owner = string(_ownerTemplate)
+	if _ownerTpl, err := ioutil.ReadFile("./templates/owner.html"); err == nil {
+		MailOwner = string(_ownerTpl)
 	}
-	if _guestTemplate, err := ioutil.ReadFile("./templates/guest.html"); err == nil {
-		Guest = string(_guestTemplate)
+	if _guestTpl, err := ioutil.ReadFile("./templates/guest.html"); err == nil {
+		MailGuest = string(_guestTpl)
+	}
+
+	if _ownerTplText, err := ioutil.ReadFile("./templates/owner.tpl"); err == nil {
+		TextOwner = string(_ownerTplText)
+	}
+	if _guestTplText, err := ioutil.ReadFile("./templates/guest.tpl"); err == nil {
+		TextGuest = string(_guestTplText)
 	}
 }

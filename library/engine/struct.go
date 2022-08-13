@@ -1,4 +1,13 @@
-package mail
+package engine
+
+type Platform string
+
+const (
+	PlatformSmtp     Platform = "smtp"
+	PlatformAliyun   Platform = "aliyun"
+	PlatformBark     Platform = "bark"
+	PlatformTelegram Platform = "telegram"
+)
 
 type Mail struct {
 	Subject   string
@@ -6,13 +15,6 @@ type Mail struct {
 	ToAddress string
 	Typ       string // 邮件类型
 }
-
-type Platform string
-
-const (
-	PlatformSmtp   Platform = "smtp"
-	PlatformAliyun Platform = "aliyun"
-)
 
 type OwnerArgs struct {
 	Permalink string `args:"permalink"`  // 文章链接
