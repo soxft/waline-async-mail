@@ -4,11 +4,12 @@ import (
 	"crypto/tls"
 	"fmt"
 	"github.com/soxft/waline-async-mail/config"
+	"github.com/soxft/waline-async-mail/library/engine"
 	"gopkg.in/gomail.v2"
 	"mime"
 )
 
-func sendBySmtp(mail Mail) error {
+func sendBySmtp(mail engine.Mail) error {
 	m := gomail.NewMessage()
 
 	senderNameUtf8 := mime.QEncoding.Encode("utf-8", config.BlogInfo.Title)

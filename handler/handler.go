@@ -34,7 +34,7 @@ func Send(data app.CommentStruct) {
 		Status:    _comment.Status,
 		Mail:      _comment.Mail,
 	}
-	content := parse(templates.Owner, ownerArgs)
+	content := parse(templates.MailOwner, ownerArgs)
 	_mail = engine.Mail{
 		Subject:   fmt.Sprintf("%s 上有新评论了", _siteTitle),
 		Content:   content,
@@ -55,7 +55,7 @@ func Send(data app.CommentStruct) {
 			TextP:     _reply.Comment,
 			SiteTitle: _siteTitle,
 		}
-		content = parse(templates.Guest, guestArgs)
+		content = parse(templates.MailGuest, guestArgs)
 		_mail = engine.Mail{
 			Subject:   fmt.Sprintf("%s 回复了你的评论 - %s", _comment.Nick, _siteTitle),
 			Content:   content,

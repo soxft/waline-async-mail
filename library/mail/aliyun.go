@@ -4,9 +4,10 @@ import (
 	"github.com/aliyun/alibaba-cloud-sdk-go/sdk"
 	"github.com/aliyun/alibaba-cloud-sdk-go/sdk/requests"
 	"github.com/soxft/waline-async-mail/config"
+	"github.com/soxft/waline-async-mail/library/engine"
 )
 
-func sendByAliyun(mail Mail) error {
+func sendByAliyun(mail engine.Mail) error {
 	client, err := sdk.NewClientWithAccessKey(config.Aliyun.Region, config.Aliyun.AccessKey, config.Aliyun.AccessSecret)
 	if err != nil {
 		return err

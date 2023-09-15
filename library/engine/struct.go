@@ -9,6 +9,27 @@ const (
 	PlatformTelegram Platform = "telegram"
 )
 
+type ParseBy string
+
+const (
+	ParseByMail ParseBy = "mail"
+	ParseByText ParseBy = "text"
+)
+
+var strToPlatform = map[string]Platform{
+	"smtp":     PlatformSmtp,
+	"aliyun":   PlatformAliyun,
+	"bark":     PlatformBark,
+	"telegram": PlatformTelegram,
+}
+
+var platformToParseBy = map[Platform]ParseBy{
+	PlatformSmtp:     ParseByMail,
+	PlatformAliyun:   ParseByMail,
+	PlatformBark:     ParseByText,
+	PlatformTelegram: ParseByText,
+}
+
 type Mail struct {
 	Subject   string
 	Content   string

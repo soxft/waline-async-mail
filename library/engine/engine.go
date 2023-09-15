@@ -4,11 +4,16 @@ import (
 	"github.com/soxft/waline-async-mail/config"
 )
 
-func ParseMail() error {
+func Parse(platform Platform) error {
+
 	return nil
 }
 
-func ParseText() error {
+func parseMail() error {
+	return nil
+}
+
+func parseText() error {
 	return nil
 }
 
@@ -22,15 +27,13 @@ func GetSendPlatform(mail Mail) Platform {
 		sendTyp = config.SendBy.Owner
 	}
 
-	if sendTyp == "smtp" {
-		return PlatformSmtp
-	} else if sendTyp == "aliyun" {
-		return PlatformAliyun
-	} else if sendTyp == "bark" {
-		return PlatformBark
-	} else if sendTyp == "telegram" {
-		return PlatformTelegram
+	return strToPlatform[sendTyp]
+}
+
+func GetParseBy(platform Platform) ParseBy {
+	if platform == PlatformSmtp || platform == PlatformAliyun {
+		return ParseByMail
 	} else {
-		return PlatformSmtp
+		return ParseByText
 	}
 }
