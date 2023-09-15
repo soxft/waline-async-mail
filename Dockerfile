@@ -13,6 +13,6 @@ FROM alpine:3.16
 WORKDIR /app
 
 COPY --from=builder /app/waline_mailer /app/waline_mailer
-COPY --from=builder /app/config.yaml /app/config.yaml
+COPY --from=builder /app/config.example.yaml /app/config.yaml
 
 CMD ["./waline_mailer", "-c", "config.yaml"]
