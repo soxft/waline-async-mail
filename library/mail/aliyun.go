@@ -4,6 +4,7 @@ import (
 	"github.com/aliyun/alibaba-cloud-sdk-go/sdk"
 	"github.com/aliyun/alibaba-cloud-sdk-go/sdk/requests"
 	"github.com/soxft/waline-async-mail/config"
+	"time"
 )
 
 func sendByAliyun(mail Mail) error {
@@ -25,6 +26,8 @@ func sendByAliyun(mail Mail) error {
 	request.QueryParams["AddressType"] = "1"
 	request.QueryParams["ReplyToAddress"] = "true"
 
+	client.SetConnectTimeout(15 * time.Second)
+	client.SetReadTimeout(15 * time.Second)
 	_, err = client.ProcessCommonRequest(request)
 	return err
 }
