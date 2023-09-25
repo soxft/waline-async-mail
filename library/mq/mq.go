@@ -5,6 +5,7 @@ import (
 	"github.com/gomodule/redigo/redis"
 	"log"
 	"sync"
+	"time"
 )
 
 func New(redis *redis.Pool, maxRetries int) MessageQueue {
@@ -79,6 +80,9 @@ func (q *QueueArgs) Subscribe(topic string, processes int, handler func(data str
 						}
 					}()
 					handler(_msg.Msg)
+
+					// prevent loop
+					time.Sleep(time.Millisecond * 500)
 				}(_msg)
 				// wait for handler
 				wg.Wait()
