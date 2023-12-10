@@ -1,0 +1,73 @@
+version: '3'
+
+services:
+  database:
+    container_name: waline_database
+    image: "mariadb:10.5.3"
+    restart: always
+    ports:
+      - "127.0.0.1:13306:3306"
+    volumes:
+      - ./mysql:/var/lib/mysql
+      #- ./sql.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: waline.pwd
+      MYSQL_DATABASE: waline
+      MYSQL_USER: root
+      MYSQL_PASSWORD: waline.pwd
+    networks:
+      - waline_network
+
+  redis:
+    container_name: waline_redis
+    image: redis:latest
+    restart: always
+    volumes:
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./redis/data:/data:rw
+    command:
+      /bin/bash -c "redis-server /usr/local/etc/redis/redis.conf"
+    networks:
+      - waline_network
+
+  waline_mailer:
+    container_name: waline_mailer
+    build:
+        context: .
+        dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - ./mailer/config.yaml:/app/config.yaml
+      - ./mailer/templates:/app/templates
+    networks:
+      - waline_network
+
+  waline:
+    container_name: waline
+    image: lizheming/waline:latest
+    restart: always
+    ports:
+      - "0.0.0.0:8360:8360" # 最终服务暴露端口
+    volumes:
+      - ${PWD}/data:/app/data
+    environment:
+      TZ: 'Asia/Shanghai'
+      WEBHOOK: "http://waline_mailer:8091"
+      SERVER_URL: "https://waline.yyer.net"
+      GRAVATAR_STR: https://gravatar.loli.net/avatar/{{mail|md5}}?s=220&r=X&r=G&d=identicon
+      DISABLE_REGION: "true"
+      DISABLE_USERAGENT: "true"
+      COMMENT_AUDIT: "true"
+      SECURE_DOMAINS: "blog.example.com"
+      MYSQL_HOST: database
+      MYSQL_PORT: 3306
+      MYSQL_DB: waline
+      MYSQL_USER: root
+      MYSQL_PASSWORD: waline.pwd
+    networks:
+      - waline_network
+
+networks:
+  waline_network:
+    driver:
+      bridge
