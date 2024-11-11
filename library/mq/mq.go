@@ -49,6 +49,7 @@ func (q *QueueArgs) Subscribe(topic string, processes int, handler func(data str
 			for {
 				_data, err := redis.Strings(_redis.Do("BRPOP", "rmq:"+topic, 1))
 				if err != nil || _data == nil {
+					time.Sleep(time.Second * 1)
 					continue
 				}
 
@@ -62,10 +63,10 @@ func (q *QueueArgs) Subscribe(topic string, processes int, handler func(data str
 				// execute handler
 				go func(_msg MsgArgs) {
 					defer func() {
-						// retry if error
-						wg.Done()
 						if err := recover(); err != nil {
 							log.Printf("[ERROR] mq handler: %s", err)
+							_msg.Retry++
+
 							if _data, err := json.Marshal(_msg); err != nil {
 								return
 							} else {
@@ -76,14 +77,17 @@ func (q *QueueArgs) Subscribe(topic string, processes int, handler func(data str
 								}
 								_, _ = _redis.Do("LPUSH", "rmq:"+topic, _data)
 							}
-							_msg.Retry++
 						}
+
+						// retry if error
+						wg.Done()
 					}()
 					handler(_msg.Msg)
 
 					// prevent loop
-					time.Sleep(time.Millisecond * 500)
+					time.Sleep(time.Millisecond * 1)
 				}(_msg)
+
 				// wait for handler
 				wg.Wait()
 			}
